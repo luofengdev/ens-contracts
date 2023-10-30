@@ -18,6 +18,8 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const registry = await ethers.getContract('ENSRegistry')
   const root = await ethers.getContract('Root')
 
+  console.log(root.address)
+
   const tx1 = await registry.setOwner(ZERO_HASH, root.address)
   console.log(
     `Setting owner of root node to root contract (tx: ${tx1.hash})...`,
@@ -25,6 +27,9 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   await tx1.wait()
 
   const rootOwner = await root.owner()
+
+  console.log(`rootOwner: ${rootOwner}`)
+  console.log(`owner: ${owner}`)
 
   switch (rootOwner) {
     case deployer:
